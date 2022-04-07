@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get weather</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@500;600&family=Shadows+Into+Light&display=swap" rel="stylesheet">
+   
+  <link rel="stylesheet" href="./fetch.css">
+</head>
+<body>
+    
+    <div id="logo"> 
+
+         <div>
+            <img id="image" src="https://cdn-icons-png.flaticon.com/512/1163/1163661.png  " height="50px" width="50px" alt="">
+            <h1 id="head"> WeatherWeb</h1> 
+        </div>
+       <div>
+        <input type="text" id="city">
+        <button id="butt" onclick="main()">Get Weather</button>
+       </div>
+
+
+    </div>
+  
+    <div id="container">
+
+    </div>
+    <div id = "weatherContainer">
+        
+          <div class = "icons">
+              <p class="weather" id="day1"></p>
+              <div class="image"><img src="dots.png" class="imgClass" id="img1"></div>
+              <p class="minValues" id="day1Min">Loading...</p>
+              <p class="maxValues" id="day1Max">Loading...</p>
+          </div>
+          <div class = "icons">
+              <p class="weather" id="day2"></p>
+              <div class="image"><img src="dots.png" class="imgClass" id="img2"></div>
+              <p class="minValues" id="day2Min">Loading...</p>
+              <p class="maxValues" id="day2Max">Loading...</p>
+          </div>
+          <div class = "icons">
+              <p class="weather" id="day3"></p>
+              <div class="image"><img src="dots.png" class="imgClass" id="img3"></div>
+              <p class="minValues" id="day3Min">Loading...</p>
+              <p class="maxValues" id="day3Max">Loading...</p>
+          </div>
+          <div class = "icons">
+              <p class="weather" id="day4"></p>
+              <div class="image"><img src="dots.png" class="imgClass" id="img4"></div>
+              <p class="minValues" id="day4Min">Loading...</p>
+              <p class="maxValues" id="day4Max">Loading...</p>
+          </div>
+          <div class = "icons">
+              <p class="weather" id="day5"></p>
+              <div class="image"><img src="dots.png" class="imgClass" id="img5"></div>
+              <p class="minValues" id="day5Min">Loading...</p>
+              <p class="maxValues" id="day5Max">Loading...</p>
+          </div>
+          <div class = "icons">
+            <p class="weather" id="day6"></p>
+            <div class="image"><img src="dots.png" class="imgClass" id="img6"></div>
+            <p class="minValues" id="day6Min">Loading...</p>
+            <p class="maxValues" id="day6Max">Loading...</p>
+        </div>
+        <div class = "icons">
+          <p class="weather" id="day7"></p>
+          <div class="image"><img src="dots.png" class="imgClass" id="img7"></div>
+          <p class="minValues" id="day7Min">Loading...</p>
+          <p class="maxValues" id="day7Max">Loading...</p>
+      </div>
+      
+  </div>
+
+
+    
+</body>
+<script>
+ let box=document.getElementById("container");
+
+ async function getweather(){
+     try{
+     
+        let getcity=document.getElementById("city").value;
+   
+   let res= await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${getcity}&appid=6dc5f8c3e47d8292970c1f3895145668`);
+
+   let data=await res.json();
+   
+   let array_of_movies=data;
+
+return array_of_movies;
+
+  //  display(data);
+
+   console.log("data:",data)
+     } catch(err){
+         console.log("err:",err);
+     }
+  
+ }
+   
+   function display(data){
+      
+    box.innerHTML="";
+   let divittems=document.createElement("div");
+   divittems.setAttribute('class','setting');
+
+
+    let name=document.createElement("h3");
+   name.innerHTML=`<img src="./buildings.png"> Name :<mark>${data.name}</mark>`;
+ 
+    let temp=document.createElement("h3");
+    temp.innerHTML=`<img src="./high-temperature.png">   Temperature:<mark>${data.main.temp}</mark>`;
+    
+
+    let pressure=document.createElement("h3");
+    pressure.innerHTML=`<img src="./pressure-gauge.png"> Pressure:<mark>${data.main.pressure}</mark>`;
+
+    let humidity=document.createElement("h3");
+    humidity.innerHTML=`<img src="./humidity.png">  Humidity<mark>${data.main.humidity}</mark>`;
+     
+    let sunrise=document.createElement("h3");
+    sunrise.innerHTML=`<img src="./sunrise.png">  Sunrise:<mark>${data.sys.sunrise}</mark>`;
+
+    let sunset=document.createElement("h3");
+    sunset.innerHTML=`<img src="./sunset.png"> Sunset:<mark>${data.sys.sunset}</mark>`;
+
+    let tempmin=document.createElement("h3");
+    tempmin.innerHTML=`<img src="./temperature.png"> Minimum-Temperature:<mark>${data.main.temp_min}</mark>`;
+
+    let tempmax=document.createElement("h3");
+    tempmax.innerHTML=`<img src="./thermometer.png"> Maximum-Temperature:<mark>${data.main.temp_max}</mark>`;
+
+    let wind=document.createElement("h3");
+    wind.innerHTML=`<img src="./wind.png"> Wind-Speed:<mark>${data.wind.speed}</mark>`;
+
+    divittems.append(name,temp,pressure,humidity,sunrise,sunset,tempmin,tempmax,wind);
+
+    let divforframe=document.createElement("div");
+
+    let frame=document.createElement("iframe");
+    frame.src=`https://maps.google.com/maps?q=${data.name}&t=&z=13&ie=UTF8&iwloc=&output=embed`;
+    frame.height=`490px`;
+   frame.width=`99%`;
+   frame.style.borderRadius = "50px";
+   divforframe.append(frame);
+
+    box.append( divittems,divforframe);
+   }
+  
+  // main
+  function GetInfo() {
+
+var newName = document.getElementById("city");
+
+
+
+fetch('https://api.openweathermap.org/data/2.5/forecast?q='+newName.value+'&appid=32ba0bfed592484379e51106cef3f204')
+.then(response => response.json())
+.then(data => {
+
+//Getting the min and max values for each day
+for(i = 0; i<7; i++){
+document.getElementById("day" + (i+1) + "Min").innerHTML = "Min: " + Number(data.list[i].main.temp_min - 273.15).toFixed(1)+ "°";
+//Number(1.3450001).toFixed(2); // 1.35
+}
+
+for(i = 0; i<7; i++){
+document.getElementById("day" + (i+1) + "Max").innerHTML = "Max: " + Number(data.list[i].main.temp_max - 273.15).toFixed(2) + "°";
+}
+//------------------------------------------------------------
+
+//Getting Weather Icons
+for(i = 0; i<7; i++){
+document.getElementById("img" + (i+1)).src = "http://openweathermap.org/img/wn/"+
+data.list[i].weather[0].icon
++".png";
+}
+//------------------------------------------------------------
+console.log(data)
+
+
+})
+
+.catch(err => alert("Something Went Wrong: Try Checking Your Internet Coneciton"))
+}
+
+function DefaultScreen(){
+document.getElementById("cityInput").defaultValue = "London";
+GetInfo();
+}
+
+
+//Getting and displaying the text for the upcoming five days of the week
+var d = new Date();
+var weekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday",];
+
+//Function to get the correct integer for the index of the days array
+function CheckDay(day){
+if(day + d.getDay() > 6){
+return day + d.getDay() - 7;
+}
+else{
+return day + d.getDay();
+}
+}
+
+for(i = 0; i<7; i++){
+document.getElementById("day" + (i+1)).innerHTML = weekday[CheckDay(i)];
+}
+async function main(){
+  try{
+      let data = await getweather();
+
+      display(data);
+      GetInfo();
+  } catch (error){
+    console.log("error:",error);
+}
+
+} 
+
+</script>
+
+
+</html>
